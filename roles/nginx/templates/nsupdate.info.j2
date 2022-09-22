@@ -1,8 +1,5 @@
-# {{ ansible_managed }}
-
-# Redirect from http(s)://{{ nsupdate.basedomain.name }} to http(s)://www.{{ nsupdate.basedomain.name }}
 server {
-    listen 0.0.0.0:80;
+    listen 80;
     listen [::]:80;
     server_name {{ nsupdate.basedomain.name }};
     access_log /var/log/nginx/access.log anonymized;
@@ -10,7 +7,7 @@ server {
 }
 
 server {
-    listen 0.0.0.0:80;
+    listen 80;
     listen [::]:80;
     server_name www.{{ nsupdate.basedomain.name }} ipv4.{{ nsupdate.basedomain.name }} ipv6.{{ nsupdate.basedomain.name }};
     access_log /var/log/nginx/access.log anonymized;
