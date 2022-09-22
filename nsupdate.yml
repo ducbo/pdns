@@ -1,0 +1,7 @@
+- hosts: nsupdate
+  remote_user: root
+  roles:
+    - nginx
+    - bind9
+    - postgresql
+    - nsupdate_info

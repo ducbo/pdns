@@ -1,0 +1,31 @@
+# {{ ansible_managed }}
+
+# Redirect from http(s)://{{ nsupdate.basedomain.name }} to http(s)://www.{{ nsupdate.basedomain.name }}
+server {
+    listen 0.0.0.0:80;
+    listen [::]:80;
+    server_name {{ nsupdate.basedomain.name }};
+    access_log /var/log/nginx/access.log anonymized;
+    return 301 $scheme://www.{{ nsupdate.basedomain.name }}$request_uri;
+}
+
+server {
+    listen 0.0.0.0:80;
+    listen [::]:80;
+    server_name www.{{ nsupdate.basedomain.name }} ipv4.{{ nsupdate.basedomain.name }} ipv6.{{ nsupdate.basedomain.name }};
+    access_log /var/log/nginx/access.log anonymized;
+
+    location /static/ {
+	alias /var/www/nsupdate.info/static/;
+    }
+
+    location /myip {
+	add_header Content-Type text/plain;
+	return 200 $remote_addr;
+    }
+
+    location / {
+	include uwsgi_params;
+	uwsgi_pass unix:/run/uwsgi/uwsgi.sock;
+    }
+}

@@ -1,0 +1,2 @@
+[nsupdate]
+pdns.win		ansible_ssh_host=140.238.39.132

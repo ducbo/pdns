@@ -1,0 +1,46 @@
+; {{ ansible_managed }}
+
+$ORIGIN .
+$TTL    3600
+
+{{ nsupdate.basedomain.name }}        IN      SOA     ns1.pdns.win. {{ nsupdate.service_contact | regex_replace('@', '.') }}. (
+                                         {{ bind_serial | default(1) }} ; serial
+                                      7200 ; refresh
+                                      1800 ; retry
+                                    604800 ; expire
+                                        60 ; minimum
+                                    )
+
+                    NS      ns1.pdns.win.
+                    NS      ns2.pdns.win.
+                    NS      ns3.pdns.win.
+                    A       140.238.39.132
+                    A       150.230.211.116
+                    A       155.248.170.106
+                    AAAA    2603:c021:8004:5100::a
+                    AAAA    2603:c021:8004:5100::b
+                    AAAA    2603:c021:8004:5100::c
+                    MX	10	mx1.nicmus.com.
+					
+$ORIGIN {{ nsupdate.basedomain.name }}.
+$TTL    3600
+
+www     IN      A       140.238.39.132
+www     IN      A       150.230.211.116
+www     IN      A       155.248.170.106
+www     IN      AAAA    2603:c021:8004:5100::a
+www     IN      AAAA    2603:c021:8004:5100::b
+www     IN      AAAA    2603:c021:8004:5100::c
+ipv4    IN      A       140.238.39.132
+ipv4    IN      A       150.230.211.116
+ipv4    IN      A       155.248.170.106
+ipv6    IN      AAAA    2603:c021:8004:5100::a
+ipv6    IN      AAAA    2603:c021:8004:5100::b
+ipv6    IN      AAAA    2603:c021:8004:5100::c
+_psl	IN		TXT		"https://github.com/publicsuffix/list/pull/1550"
+ns1     IN      A       213.239.242.238
+ns2     IN      A       213.133.105.6
+ns3     IN      A       193.47.99.3
+ns1     IN      AAAA    2a01:4f8:0:a101::a:1
+ns2     IN      AAAA    2a01:4f8:d0a:2004::2
+ns3     IN      AAAA    2001:67c:192c::add:a3
